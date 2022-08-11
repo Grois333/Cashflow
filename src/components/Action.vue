@@ -1,32 +1,32 @@
 <template>
-  <button @click="showModal = true">Agregar movimiento</button>
+  <button @click="showModal = true">Add movement</button>
   <teleport to="#app">
     <Modal v-show="showModal" @close="showModal = false">
       <form @submit.prevent="submit">
         <div class="field">
-          <label>Título</label>
+          <label>Title</label>
           <input type="text" v-model="title" />
         </div>
         <div class="field">
-          <label>Monto</label>
+          <label>Amount</label>
           <input type="number" v-model="amount" />
         </div>
         <div class="field">
-          <label>Descripción</label>
+          <label>Description</label>
           <textarea rows="4" v-model="description"></textarea>
         </div>
         <div class="field">
           <label class="radio-label">
             <input type="radio" v-model="movementType" value="Ingreso" />
-            <span>Ingreso</span>
+            <span>Entry</span>
           </label>
           <label class="radio-label">
             <input type="radio" v-model="movementType" value="Gasto" />
-            <span>Gasto</span>
+            <span>Expense</span>
           </label>
         </div>
         <div class="action">
-          <button>Agregar movimiento</button>
+          <button>Add movement</button>
         </div>
       </form>
     </Modal>
