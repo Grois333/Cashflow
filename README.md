@@ -1,10 +1,29 @@
 # Cashflow App
 
-### Link to App: 
+### Link to App: https://appcashflow.netlify.app/
 
 #### Frontend: Vuejs Framework
 
-![Main]()
+![Main](https://raw.githubusercontent.com/Grois333/Cashflow/master/images/home.png)
+
+
+### Loading:
+
+![Home](https://raw.githubusercontent.com/Grois333/Cashflow/master/images/loading.png)
+
+
+
+### Records:
+
+![Home](https://raw.githubusercontent.com/Grois333/Cashflow/master/images/records.png)
+
+
+
+### Add Movement:
+
+![Home](https://raw.githubusercontent.com/Grois333/Cashflow/master/images/add%20movement.png)
+
+
 
 
 ## Project setup
