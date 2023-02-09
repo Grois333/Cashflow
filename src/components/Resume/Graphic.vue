@@ -153,7 +153,7 @@ p {
     padding-bottom: 5px;
 }
 
-.graphic p{
+/* .graphic p{
     margin: 8px;
-}
+} */
 </style>
