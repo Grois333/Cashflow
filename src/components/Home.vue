@@ -11,11 +11,17 @@
         :amount="amount"
       >
         <template #graphic>
-          <Graphic :amounts="amounts" @select="select" />
+          <Graphic 
+            :amounts="amounts" 
+            :totalEntries="totalEntries"
+            :totalExpenses="totalExpenses"
+            @select="select" />
         </template>
+
         <template #action>
           <Action @create="create" />
         </template>
+        
       </Resume>
     </template>
     <template #movements>
@@ -34,6 +40,7 @@ import Resume from "./Resume/Index.vue";
 import Action from "./Action.vue";
 import Movements from "./Movements/Index.vue";
 import Graphic from "./Resume/Graphic.vue";
+import currencyFormatter from "@/js/currencyFormater";
 
 export default {
   components: {
@@ -74,7 +81,27 @@ export default {
       return this.movements.reduce((suma, m) => {
         return suma + m.amount;
       }, 0);
-    }
+    },
+    totalEntries(){
+      let total = 0;
+      for (let movement of this.movements) {
+          console.log(movement.amount);
+          if(movement.amount >= 0){
+              total = total + movement.amount;
+          }
+      }
+      return currencyFormatter.format(total);
+    },
+    totalExpenses(){
+      let total = 0;
+      for (let movement of this.movements) {
+          console.log(movement.amount);
+          if(movement.amount < 0){
+              total = total + movement.amount;
+          }
+      }
+      return currencyFormatter.format(total);
+    },
   },
   mounted() {
     const movements = JSON.parse(localStorage.getItem("movements"));

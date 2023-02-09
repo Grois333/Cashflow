@@ -20,11 +20,12 @@
 
 <script setup>
 import { toRefs, defineProps, defineEmits, computed } from "vue";
+import currencyFormatter from "@/js/currencyFormater";
 
-const currencyFormatter = new Intl.NumberFormat("es-MX", {
-  style: "currency",
-  currency: "MXN",
-});
+// const currencyFormatter = new Intl.NumberFormat("es-MX", {
+//   style: "currency",
+//   currency: "MXN",
+// });
 
 const props = defineProps({
   id: {

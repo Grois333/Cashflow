@@ -31,17 +31,36 @@
             />
         </svg>
         <p>Last 30 days</p>
+
+        <p class="green">Total Entries: {{ totalEntries }}</p>
+        <p class="red">Total Expenses: {{ totalExpenses }}</p>
+
     </div>
 </template>
 
 <script setup>
-import { ref, toRefs, defineProps, defineEmits, computed, watch } from 'vue';
+import { ref, toRefs, defineProps, defineEmits, computed, watch,  } from 'vue';
+
+// onMounted(() => { 
+// 	const movements = JSON.parse(localStorage.getItem("movements"));
+//     console.log(movements);
+// })
 
 const props = defineProps({
     amounts: {
         type: Array,
         default: () => [],
-    }
+    },
+
+    totalEntries: {
+        type: Array,
+        default: () => [],
+    },
+
+    totalExpenses: {
+        type: Array,
+        default: () => [],
+    },
 });
 
 const { amounts } = toRefs(props);
@@ -55,6 +74,27 @@ const amountToPixels = (amount) => {
 
     return 200 - ((amountAbs * 100) / minmax) * 2;
 }
+
+
+// const movements = JSON.parse(localStorage.getItem("movements"));
+// //console.log(movements)
+// let movementString = JSON.parse(JSON.stringify(movements))
+// console.log(movementString)
+
+// //const user = reactive({ firstName: 'John', lastName: 'Doe', age: 25 });
+// //const fullName = computed(() => user.firstName + ' ' + user.lastName);
+// //const movementObject = reactive(movements);
+// const totalEntries = computed(() => {
+//     let total = 0;
+//     for (let movement of movements) {
+//         console.log(movement.amount);
+//         if(movement.amount >= 0){
+//             total = total + movement.amount;
+//         }
+//     }
+//     return total;
+// });
+
 
 const zero = computed(() => {
     return amountToPixels(0);
@@ -99,5 +139,21 @@ svg {
 }
 p {
   text-align: center;
+}
+
+.green{
+    color:green
+}
+.red{
+    color: red;
+}
+
+.graphic{
+    padding: 20px 24px;
+    padding-bottom: 5px;
+}
+
+.graphic p{
+    margin: 8px;
 }
 </style>
