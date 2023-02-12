@@ -9,7 +9,8 @@
         </div>
         <div class="field">
           <label>Amount</label>
-          <input type="number" v-model="amount" />
+          <input type="number" step="any" v-model="amount"  @input="checkInput" />
+          <span class="red" v-if="showError">Please enter a number other than 0</span>
         </div>
         <div class="field">
           <label>Description</label>
@@ -43,22 +44,40 @@ const amount = ref(0);
 const description = ref("");
 const movementType = ref("Ingreso");
 
+const showError = ref(false);
+
 const emit = defineEmits(["create"]);
 
 const submit = () => {
-  showModal.value = !showModal.value;
-  emit("create", {
-    title: title.value,
-    description: description.value,
-    amount: movementType.value === "Ingreso" ? amount.value : -amount.value,
-    time: new Date(),
-    id: new Date(),
-  });
-  title.value = "";
-  description.value = "";
-  amount.value = 0;
-  movementType.value = "Ingreso";
+  if(amount.value > 0){
+    showModal.value = !showModal.value;
+    emit("create", {
+      title: title.value,
+      description: description.value,
+      amount: movementType.value === "Ingreso" ? amount.value : -amount.value,
+      time: new Date(),
+      id: new Date(),
+    });
+    title.value = "";
+    description.value = "";
+    amount.value = 0;
+    movementType.value = "Ingreso";
+  } else{
+    //alert('Please enter a number other than 0');
+    showError.value = true;
+  }
 };
+
+const checkInput = () => {
+  if (amount.value === 0 || amount.value === '') {
+    showError.value = true;
+  } else {
+    showError.value = false;
+  }
+}
+
+
+
 </script>
 
 <style scoped>
@@ -127,5 +146,9 @@ input[type="radio"] {
 
 input[type="radio"]:checked {
   background-color: var(--brand-blue);
+}
+
+.red{
+    color: red;
 }
 </style>

@@ -76,26 +76,6 @@ const amountToPixels = (amount) => {
 }
 
 
-// const movements = JSON.parse(localStorage.getItem("movements"));
-// //console.log(movements)
-// let movementString = JSON.parse(JSON.stringify(movements))
-// console.log(movementString)
-
-// //const user = reactive({ firstName: 'John', lastName: 'Doe', age: 25 });
-// //const fullName = computed(() => user.firstName + ' ' + user.lastName);
-// //const movementObject = reactive(movements);
-// const totalEntries = computed(() => {
-//     let total = 0;
-//     for (let movement of movements) {
-//         console.log(movement.amount);
-//         if(movement.amount >= 0){
-//             total = total + movement.amount;
-//         }
-//     }
-//     return total;
-// });
-
-
 const zero = computed(() => {
     return amountToPixels(0);
 });
