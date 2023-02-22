@@ -259,7 +259,7 @@ h1 {
 
 .currencySelect{
   position: absolute;
-  top: 15vh;
+  top: 10vh;
   right: 15vw;
   color: var(--brand-green);
 }
