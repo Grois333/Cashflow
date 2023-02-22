@@ -252,7 +252,6 @@ h1 {
   width: 100%;
   padding: 48px 24px;
   box-sizing: border-box;
-
   padding: 20px 24px;
   padding-bottom: 5px;
 }
