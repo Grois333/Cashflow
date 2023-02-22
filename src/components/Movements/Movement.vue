@@ -20,7 +20,8 @@
 
 <script setup>
 import { toRefs, defineProps, defineEmits, computed } from "vue";
-import currencyFormatter from "@/js/currencyFormater";
+import store from '@/store.js';
+//import currencyFormatter from "@/js/currencyFormater";
 
 // const currencyFormatter = new Intl.NumberFormat("es-MX", {
 //   style: "currency",
@@ -44,7 +45,29 @@ const props = defineProps({
 
 const { id, title, description, amount } = toRefs(props);
 
-const amountCurrency = computed(() => currencyFormatter.format(amount.value));
+const amountCurrency = computed(() =>{
+  //console.log(store.state.currency);
+
+  //let newTotal = currencyFormatter.format(amount.value);
+  let newTotal = store.state.currencyFormatter.format(amount.value);
+
+  function swapFirstTwoChars(str) {
+    if (str.length <= 1) return str;
+    return str[1] + str[0] + str.substring(2);
+  }
+
+  let newNewTotal;
+  if(newTotal.startsWith('-')){
+    newNewTotal = swapFirstTwoChars(newTotal);
+    //console.log(newNewTotal);
+    return newNewTotal;
+  } else{
+    //return currencyFormatter.format(amount.value);
+    //return this.$store.state.currencyFormatter.format(amount.value);
+    return newTotal;
+  }
+
+});
 
 const isNegative = computed(() => amount.value < 0);
 

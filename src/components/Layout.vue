@@ -2,6 +2,9 @@
   <div class="header">
     <slot name="header"></slot>
   </div>
+  <!-- <div class="currencySelect">
+    <slot name="currencySelect"></slot>
+  </div> -->
   <div class="resume">
     <slot name="resume"></slot>
   </div>

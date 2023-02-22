@@ -3,12 +3,18 @@
     <template #header>
       <Header></Header>
     </template>
+
+    <!-- <template #currencySelect>
+      <CurrencySelect></CurrencySelect>
+    </template> -->
+
     <template #resume>
       <Resume
         :total-label="'Total saving'"
         :label="label"
         :total-amount="totalAmount"
         :amount="amount"
+        :currency="currency"
       >
         <template #graphic>
           <Graphic 
@@ -24,6 +30,7 @@
         
       </Resume>
     </template>
+    
     <template #movements>
       <Movements
         :movements="movements"
@@ -37,16 +44,18 @@
 import Layout from "./Layout.vue";
 import Header from "./Header.vue";
 import Resume from "./Resume/Index.vue";
+//import CurrencySelect from "./CurrencySelect.vue";
 import Action from "./Action.vue";
 import Movements from "./Movements/Index.vue";
 import Graphic from "./Resume/Graphic.vue";
-import currencyFormatter from "@/js/currencyFormater";
+//import currencyFormatter from "@/js/currencyFormater";
 
 export default {
   components: {
     Layout,
     Header,
     Resume,
+    //CurrencySelect,
     Action,
     Movements,
     Graphic,
@@ -56,6 +65,7 @@ export default {
       label: null,
       amount: null,
       movements: [],
+      currency: '',
     };
   },
   computed: {
@@ -85,27 +95,40 @@ export default {
     totalEntries(){
       let total = 0;
       for (let movement of this.movements) {
-          console.log(movement.amount);
+          //console.log(movement.amount);
           if(movement.amount >= 0){
               total = total + movement.amount;
           }
       }
-      return currencyFormatter.format(total);
+      //console.log(this.$store.state.currency);
+      //return currencyFormatter.format(total);
+      return this.$store.state.currencyFormatter.format(total);
     },
     totalExpenses(){
       let total = 0;
       for (let movement of this.movements) {
-          console.log(movement.amount);
+          //console.log(movement.amount);
           if(movement.amount < 0){
               total = total + movement.amount;
           }
       }
-      return currencyFormatter.format(total);
+      //return currencyFormatter.format(total);
+      return this.$store.state.currencyFormatter.format(total);
     },
   },
   mounted() {
     const movements = JSON.parse(localStorage.getItem("movements"));
-    console.log(movements);
+    //console.log(movements);
+
+    const savedCurrency = JSON.parse(localStorage.getItem("currency"));
+    //console.log(savedCurrency);
+    if(savedCurrency == null){
+      localStorage.setItem("currency", JSON.stringify({symbol: this.$store.state.currency, class: 'fa fa-dollar-sign'}));
+    }
+
+    this.currency = savedCurrency;
+    //console.log(this.currency)
+    this.$store.state.currency = this.currency.symbol;
 
     if (Array.isArray(movements)) {
       this.movements = movements.map(m => {
@@ -127,7 +150,7 @@ export default {
       localStorage.setItem("movements", JSON.stringify(this.movements));
     },
     select(el) {
-      console.log(el);
+      //console.log(el);
       this.amount = el;
     }
   }
