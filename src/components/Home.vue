@@ -139,7 +139,8 @@ export default {
   },
   methods: {
     create(movement) {
-      this.movements.push(movement);
+      //this.movements.push(movement);
+      this.movements.unshift(movement);
       this.save();
     },
     remove(id) {
