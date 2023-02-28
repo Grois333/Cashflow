@@ -10,7 +10,7 @@
 
     <template #resume>
       <Resume
-        :total-label="'Total saving'"
+        :total-label="'Total savings'"
         :label="label"
         :total-amount="totalAmount"
         :amount="amount"
