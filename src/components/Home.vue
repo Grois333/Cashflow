@@ -124,6 +124,7 @@ export default {
     //console.log(savedCurrency);
     if(savedCurrency == null){
       localStorage.setItem("currency", JSON.stringify({symbol: this.$store.state.currency, class: 'fa fa-dollar-sign'}));
+      location.reload();
     }
 
     this.currency = savedCurrency;

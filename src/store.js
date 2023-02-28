@@ -21,9 +21,9 @@ const store = createStore({
     return {
       //count: 0,
       currency: '$',
-      currencyFormatter: new Intl.NumberFormat("nl-NL", {
+      currencyFormatter: new Intl.NumberFormat("us-US", {
         style: "currency",
-        currency: "EUR",
+        currency: "USD",
       }),
     }
   },

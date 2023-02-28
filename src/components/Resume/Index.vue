@@ -92,8 +92,10 @@ export default {
   mounted() {
     const savedCurrency = JSON.parse(localStorage.getItem("currency"));
     //console.log(savedCurrency.symbol);
-    this.currencysaved = savedCurrency.symbol;
-    this.formatCurrency();
+    if(savedCurrency != null){
+      this.currencysaved = savedCurrency.symbol;
+      this.formatCurrency();
+    }
   },
   computed: {
     labelVisual() {
