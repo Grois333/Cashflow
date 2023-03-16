@@ -1,25 +1,31 @@
 <template>
-  <div class="movement">
-    <div class="content">
-      <h4>{{ title }}</h4>
-      <p>{{ description }}</p>
+    <div :class="['summary', classDate]">
+      <div>{{ "Summary "+currentDate+":" }}</div>
+      <p class="green">Entries: {{ totalMonth[0] }}</p>
+      <p class="red">Expenses: {{ totalMonth[1] }}</p>
     </div>
-    <div class="action">
-      <img src="@/assets/trash-icon.svg" alt="borrar" @click="remove" />
-      <p
-        :class="{
-          red: isNegative,
-          green: !isNegative,
-        }"
-      >
-        {{ amountCurrency }}
-      </p>
+
+    <div class="movement">
+      <div class="content">
+        <h4>{{ title }}</h4>
+        <p>{{ description }}</p>
+      </div>
+      <div class="action">
+        <img src="@/assets/trash-icon.svg" alt="borrar" @click="remove" />
+        <p
+          :class="{
+            red: isNegative,
+            green: !isNegative,
+          }"
+        >
+          {{ amountCurrency }}
+        </p>
+      </div>
     </div>
-  </div>
 </template>
 
 <script setup>
-import { toRefs, defineProps, defineEmits, computed } from "vue";
+import { toRefs, defineProps, defineEmits, computed, onMounted } from "vue";
 import store from '@/store.js';
 //import currencyFormatter from "@/js/currencyFormater";
 
@@ -30,7 +36,7 @@ import store from '@/store.js';
 
 const props = defineProps({
   id: {
-    type: Number,
+    type: String,
   },
   title: {
     type: String,
@@ -41,9 +47,19 @@ const props = defineProps({
   amount: {
     type: Number,
   },
+  time: {
+    type: String
+  },
+  index: {
+    type: Number
+  },
+  movementDate: {
+    type: Array
+  },
+
 });
 
-const { id, title, description, amount } = toRefs(props);
+const { id, title, description, amount, time, movementDate } = toRefs(props);
 
 const amountCurrency = computed(() =>{
   //console.log(store.state.currency);
@@ -76,6 +92,126 @@ const emit = defineEmits(["remove"]);
 const remove = () => {
   emit("remove", id.value);
 };
+
+const currentDate = computed(() =>{
+  //let currentTime = JSON.stringify(time.value);
+  let currentMonth = time.value.toLocaleString('default', { month: 'long' });
+  let currentYear = time.value.getFullYear();
+  let currentTime = currentMonth + " " + currentYear
+  return currentTime;
+})
+
+const classDate = computed(() =>{
+  //let currentTime = JSON.stringify(time.value);
+  let currentMonth = time.value.toLocaleString('default', { month: 'long' });
+  let currentYear = time.value.getFullYear();
+  let currentTime = "date-" + currentMonth + "-" + currentYear
+  return currentTime;
+})
+
+const totalMonth = computed(() =>{
+  // console.log(movementDate.value)
+  // console.log(currentDate.value)
+  let totalAmount = [];
+
+  for (const item of movementDate.value) {
+    //console.log(item)
+    //console.log(item.currentTime)
+    if(item.currentTime == currentDate.value){
+      //console.log(item.currentTime)
+      totalAmount.push(item.currentAmount)
+    }
+  }
+  //console.log(totalAmount);
+
+  let totalNegative = 0;
+  for (let i = 0; i < totalAmount.length; ++i) {
+      if (totalAmount[i] < 0) {
+        totalNegative += totalAmount[i];
+      }
+  }
+  totalNegative = store.state.currencyFormatter.format(totalNegative);
+  function swapFirstTwoChars(str) {
+    if (str.length <= 1) return str;
+    return str[1] + str[0] + str.substring(2);
+  }
+  if(totalNegative.startsWith('-')){
+    totalNegative = swapFirstTwoChars(totalNegative);
+  }
+
+  let totalPositive = 0;
+  for (let i = 0; i < totalAmount.length; ++i) {
+      if (totalAmount[i] >= 0) {
+        totalPositive += totalAmount[i];
+      }
+  }
+  totalPositive = store.state.currencyFormatter.format(totalPositive);
+
+  // let summary = `Entries: <p>${totalPositive}</p> 
+  //                Expenses: ${totalNegative}`;
+
+  let summary = [totalPositive, totalNegative]
+  //console.log(summary)
+  return summary;
+})
+
+
+onMounted(() => {
+  //descendantContainsClass()
+
+  const nodeList = document.querySelectorAll('.summary');
+  const elements = Array.from(nodeList);
+  //console.log(elements);
+
+  // create an empty object to keep track of unique classes
+  const uniqueClasses = {};
+
+  // create an empty array to store repeated elements
+  const repeatedElements = [];
+
+  // loop over each element
+  elements.forEach((element, index) => {
+    //console.log(element)
+    // get the element's class name
+    const className = element.className;
+    // check if the class name has been seen before
+    if (uniqueClasses[className]) {
+      // if the class name has been seen before and it's not the first occurrence, add the element to the repeated elements array
+      if (uniqueClasses[className] !== index) {
+        repeatedElements.push(element);
+      }
+    } else {
+      // if the class name hasn't been seen before, add it to the unique classes object
+      uniqueClasses[className] = index;
+    }
+  });
+
+  //console.log(repeatedElements)
+  // remove all repeated elements
+  repeatedElements.forEach((element) => {
+    element.remove();
+  });
+
+  // // create an empty object to keep track of unique classes
+  // const uniqueClasses = {};
+
+  // // loop over each element
+  // elements.forEach((element, index) => {
+  //   // get the element's class name
+  //   const className = element.className;
+  //   // check if the class name has been seen before
+  //   if (uniqueClasses[className]) {
+  //     // if the class name has been seen before and it's not the first occurrence, remove the element
+  //     if (uniqueClasses[className] !== index) {
+  //       element.remove();
+  //     }
+  //   } else {
+  //     // if the class name hasn't been seen before, add it to the unique classes object
+  //     uniqueClasses[className] = index;
+  //   }
+  // });
+})
+
 </script>
 
 <style scoped>
@@ -122,4 +258,13 @@ h4 {
 .green {
   color: green;
 }
+.summary .green{
+  margin: 5px 0;
+}
+
+.summary:nth-child(3) {
+  display: none
+}
+
+
 </style>

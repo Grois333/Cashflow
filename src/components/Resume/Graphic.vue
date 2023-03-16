@@ -30,7 +30,7 @@
                 y2="200"
             />
         </svg>
-        <p>Last 30 days</p>
+        <!-- <p>Last 30 days</p> -->
 
         <p class="green">Total Entries: {{ totalEntries }}</p>
         <p class="red">Total Expenses: {{ totalExpenses }}</p>
